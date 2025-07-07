@@ -35,6 +35,7 @@ class WeatherDatasourceImpl extends WeatherDatasource {
 
       // Return a Weather entity
       return Weather(
+        id: weatherModel.id,
         cityName: weatherModel.cityName,
         currentTemperature: weatherModel.currentTemperature,
         conditions: weatherModel.conditions,

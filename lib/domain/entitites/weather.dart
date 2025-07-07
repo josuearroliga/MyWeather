@@ -1,4 +1,5 @@
 class Weather {
+  final int id;
   final String cityName;
   final String currentTemperature;
   final String conditions;
@@ -6,6 +7,7 @@ class Weather {
   final DateTime sunset;
 
   Weather({
+    required this.id,
     required this.cityName,
     required this.currentTemperature,
     required this.conditions,
@@ -14,6 +16,7 @@ class Weather {
   });
 
   Weather copyWith({
+    int? id,
     String? cityName,
     String? currentTemperature,
     String? conditions,
@@ -21,6 +24,7 @@ class Weather {
     DateTime? sunset,
   }) {
     return Weather(
+      id: id ?? this.id,
       cityName: cityName ?? this.cityName,
       currentTemperature: currentTemperature ?? this.currentTemperature,
       conditions: conditions ?? this.conditions,

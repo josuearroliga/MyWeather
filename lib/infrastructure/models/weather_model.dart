@@ -1,4 +1,5 @@
 class WeatherModel {
+  final int id;
   final String cityName;
   final String currentTemperature;
   final String conditions;
@@ -7,6 +8,7 @@ class WeatherModel {
 
   //TODO: Adjust model and add more fields for what we received from the API
   WeatherModel({
+    required this.id,
     required this.cityName,
     required this.currentTemperature,
     required this.conditions,
@@ -18,6 +20,7 @@ class WeatherModel {
   factory WeatherModel.fromMap(Map<String, dynamic> map) {
     try {
       return WeatherModel(
+        id: map['cod'] as int,
         cityName: map['name'] as String, // City name
         currentTemperature:
             map['main']['temp'].toString(), // Current temperature
@@ -39,6 +42,7 @@ class WeatherModel {
   // Convert a Weather object to a Map
   Map<String, dynamic> toMap() {
     return {
+      'id': id,
       'cityName': cityName,
       'currentTemperature': currentTemperature,
       'conditions': conditions,
