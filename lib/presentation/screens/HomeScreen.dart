@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_weather/config/iconSelector.dart';
 import 'package:my_weather/domain/entitites/weather.dart';
 import 'package:my_weather/infrastructure/datasources/weather_datasource_impl.dart';
 import 'package:my_weather/presentation/blocs/bloc/bloc/weather_bloc.dart';
@@ -24,7 +25,7 @@ class Homescreen extends StatelessWidget {
                   ),
                 );
               case WeatherLoadSuccess():
-                return _ShowWeather();
+                return _ShowWeather(state.weather.id);
               case WeatherLoadFailure():
                 return Center(child: Text("The weather couldn't be fetched"));
               case WeatherOperationInProgress():
@@ -48,22 +49,23 @@ class Homescreen extends StatelessWidget {
 }
 
 class _ShowWeather extends StatelessWidget {
-  const _ShowWeather();
+  final int id;
+  const _ShowWeather(this.id);
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<WeatherBloc, WeatherState>(
-      builder: (context, state) {
-        final weather = state is WeatherLoadSuccess ? state.weather : null;
-        return Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Center(child: Image.asset("assets/forecast/clear sky.png")),
-            Text("${weather?.id}"),
-          ],
-        );
-      },
+    final icon = iconSelector[id]!;
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Center(
+          child: Container(
+            height: 200,
+            width: 200,
+            child: Image.asset(icon, fit: BoxFit.fill),
+          ),
+        ),
+      ],
     );
   }
 }
