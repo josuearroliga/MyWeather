@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:my_weather/config/geolocator.dart';
+
 import 'package:my_weather/domain/datasources/weather_datasource.dart';
 import 'package:my_weather/domain/entitites/weather.dart';
 import 'package:my_weather/infrastructure/models/weather_model.dart';
@@ -45,5 +44,15 @@ class WeatherDatasourceImpl extends WeatherDatasource {
     } else {
       throw Exception('Failed to fetch weather data: ${response.statusCode}');
     }
+  }
+
+  @override
+  Future<List<String>> getWeatherCoordinatesByApi(String cityNameSearch) async {
+    final url =
+        'http://api.openweathermap.org/geo/1.0/direct?q=$cityNameSearch&limit=10&appid=$apiKey';
+    final response = await dio.get(url);
+    final data = response.data;
+
+    return [];
   }
 }

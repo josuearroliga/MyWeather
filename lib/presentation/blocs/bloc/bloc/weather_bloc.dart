@@ -4,8 +4,6 @@ import 'package:geolocator/geolocator.dart';
 import 'package:my_weather/domain/entitites/weather.dart';
 import 'package:my_weather/domain/repositories/weather_repository.dart';
 
-import 'package:my_weather/infrastructure/datasources/weather_datasource_impl.dart';
-
 part 'weather_event.dart';
 part 'weather_state.dart';
 
@@ -16,6 +14,9 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
     : _weatherRepository = weatherRepository,
       super(WeatherInitial()) {
     on<WeatherByCoordinatesRequested>(_onWeatherByCoordinatesRequested);
+    on<WeatherByCoordinatesRequestedToAPI>(
+      _onWeatherByCoordinatesRequestedToAPI,
+    );
     on<WeatherStarted>(_onStarted);
 
     //
@@ -24,7 +25,7 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
 
   Future<void> _onStarted(
     WeatherStarted event,
-    Emitter<WeatherState> emit, 
+    Emitter<WeatherState> emit,
   ) async {
     emit(WeatherLoadInProgress());
     try {
@@ -105,8 +106,26 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
         ),
       );
     }
-
     // Update the state with the fetched weather data
     // Stop loading once data is fetched
+  }
+
+  Future<void> _onWeatherByCoordinatesRequestedToAPI(
+    WeatherByCoordinatesRequestedToAPI event,
+    Emitter<WeatherState> emit,
+  ) async {
+    try {
+      final coords = _weatherRepository.getWeatherCoordinatesByApi(
+        event.cityName,
+      );
+    } catch (e) {
+      // Handle errors (e.g., location or API errors)
+      emit(
+        WeatherLoadFailure(
+          message:
+              'The coordinates could not be retrieved at this time due to error: $e',
+        ),
+      );
+    }
   }
 }

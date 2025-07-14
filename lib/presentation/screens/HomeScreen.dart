@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_weather/config/iconSelector.dart';
 import 'package:my_weather/domain/entitites/weather.dart';
-import 'package:my_weather/infrastructure/datasources/weather_datasource_impl.dart';
 import 'package:my_weather/presentation/blocs/bloc/bloc/weather_bloc.dart';
 
 class Homescreen extends StatelessWidget {
@@ -75,6 +74,14 @@ class _ShowWeather extends StatelessWidget {
         Text(
           "${weather.conditions}".toUpperCase(),
           style: TextTheme.of(context).titleLarge,
+        ),
+        IconButton(
+          onPressed: () {
+            context.read<WeatherBloc>().add(
+              WeatherByCoordinatesRequestedToAPI("Managua"),
+            );
+          },
+          icon: Icon(Icons.start),
         ),
       ],
     );
