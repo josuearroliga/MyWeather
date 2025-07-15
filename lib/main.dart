@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:my_weather/domain/repositories/weather_repository.dart';
 import 'package:my_weather/infrastructure/datasources/weather_datasource_impl.dart';
 import 'package:my_weather/infrastructure/repositories/weather_repository_impl.dart';
 import 'package:my_weather/presentation/blocs/bloc/bloc/weather_bloc.dart';

@@ -1,7 +1,8 @@
 import 'package:dartz/dartz.dart';
 import 'package:my_weather/core/errors/failure.dart';
 import 'package:my_weather/domain/datasources/weather_datasource.dart';
-import 'package:my_weather/domain/entitites/weather.dart';
+import 'package:my_weather/domain/entitites/location_coordinates_entity.dart';
+import 'package:my_weather/domain/entitites/weather_entity.dart';
 import 'package:my_weather/domain/repositories/weather_repository.dart';
 
 class WeatherRepositoryImpl extends WeatherRepository {
@@ -11,12 +12,12 @@ class WeatherRepositoryImpl extends WeatherRepository {
   WeatherRepositoryImpl({required WeatherDatasource weatherDatasource})
     : _weatherDatasource = weatherDatasource;
   @override
-  Future<Weather> getWeather(String cityName) async {
+  Future<WeatherEntity> getWeather(String cityName) async {
     return await _weatherDatasource.getWeather(cityName);
   }
 
   @override
-  Future<Weather> getWeatherByCoordinates(
+  Future<WeatherEntity> getWeatherByCoordinates(
     double latitude,
     double longitude,
   ) async {
@@ -27,7 +28,7 @@ class WeatherRepositoryImpl extends WeatherRepository {
   }
 
   @override
-  Future<Either<Failure, List<String>>> getWeatherCoordinatesByApi(
+  Future<Either<Failure, LocationCoordinatesEntity>> getWeatherCoordinatesByApi(
     String cityNameSearch,
   ) async {
     try {

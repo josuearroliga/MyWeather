@@ -19,7 +19,7 @@ final class WeatherLoadInProgress extends WeatherState {
 }
 
 final class WeatherLoadSuccess extends WeatherState {
-  final Weather weather;
+  final WeatherEntity weather;
 
   const WeatherLoadSuccess({required this.weather});
   @override
@@ -48,9 +48,9 @@ final class WeatherOperationFailure extends WeatherState {
 }
 
 final class WeatherOperationSuccess extends WeatherState {
-  final String message;
+  final LocationCoordinatesEntity? coordinates;
 
-  const WeatherOperationSuccess({required this.message});
+  const WeatherOperationSuccess(this.coordinates);
   @override
-  List<Object> get props => [message];
+  List<Object> get props => [coordinates!];
 }

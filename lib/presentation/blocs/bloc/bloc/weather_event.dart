@@ -24,8 +24,8 @@ final class WeatherByCoordinatesRequested extends WeatherEvent {
   const WeatherByCoordinatesRequested(this.latitude, this.longitude);
 }
 
-final class WeatherByCoordinatesRequestedToAPI extends WeatherEvent {
+final class WeatherByCoordinatesRequestedByAPI extends WeatherEvent {
   final String cityName;
 
-  const WeatherByCoordinatesRequestedToAPI(this.cityName);
+  const WeatherByCoordinatesRequestedByAPI(this.cityName);
 }

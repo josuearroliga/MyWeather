@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_weather/config/iconSelector.dart';
-import 'package:my_weather/domain/entitites/weather.dart';
+import 'package:my_weather/domain/entitites/weather_entity.dart';
 import 'package:my_weather/presentation/blocs/bloc/bloc/weather_bloc.dart';
 
 class Homescreen extends StatelessWidget {
@@ -50,7 +50,7 @@ class Homescreen extends StatelessWidget {
 }
 
 class _ShowWeather extends StatelessWidget {
-  final Weather weather;
+  final WeatherEntity weather;
   const _ShowWeather(this.weather);
 
   @override
@@ -78,7 +78,7 @@ class _ShowWeather extends StatelessWidget {
         IconButton(
           onPressed: () {
             context.read<WeatherBloc>().add(
-              WeatherByCoordinatesRequestedToAPI("Managua"),
+              WeatherByCoordinatesRequestedByAPI("Managua"),
             );
           },
           icon: Icon(Icons.start),

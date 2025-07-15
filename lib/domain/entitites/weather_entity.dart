@@ -1,4 +1,4 @@
-class Weather {
+class WeatherEntity {
   final int id;
   final String cityName;
   final String currentTemperature;
@@ -6,7 +6,7 @@ class Weather {
   final DateTime sunrise;
   final DateTime sunset;
 
-  Weather({
+  WeatherEntity({
     required this.id,
     required this.cityName,
     required this.currentTemperature,
@@ -15,7 +15,7 @@ class Weather {
     required this.sunset,
   });
 
-  Weather copyWith({
+  WeatherEntity copyWith({
     int? id,
     String? cityName,
     String? currentTemperature,
@@ -23,7 +23,7 @@ class Weather {
     DateTime? sunrise,
     DateTime? sunset,
   }) {
-    return Weather(
+    return WeatherEntity(
       id: id ?? this.id,
       cityName: cityName ?? this.cityName,
       currentTemperature: currentTemperature ?? this.currentTemperature,

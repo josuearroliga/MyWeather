@@ -1,7 +1,9 @@
 import 'package:dio/dio.dart';
 
 import 'package:my_weather/domain/datasources/weather_datasource.dart';
-import 'package:my_weather/domain/entitites/weather.dart';
+import 'package:my_weather/domain/entitites/location_coordinates_entity.dart';
+import 'package:my_weather/domain/entitites/weather_entity.dart';
+import 'package:my_weather/infrastructure/models/location_coordinates_model.dart';
 import 'package:my_weather/infrastructure/models/weather_model.dart';
 
 class WeatherDatasourceImpl extends WeatherDatasource {
@@ -12,13 +14,13 @@ class WeatherDatasourceImpl extends WeatherDatasource {
   final String apiKey = 'f66410590e28bb77cb50435461f05352';
 
   @override
-  Future<Weather> getWeather(String cityName) async {
+  Future<WeatherEntity> getWeather(String cityName) async {
     // TODO: implement getWeatherByCoordinates
     throw UnimplementedError();
   }
 
   @override
-  Future<Weather> getWeatherByCoordinates(
+  Future<WeatherEntity> getWeatherByCoordinates(
     double latitude,
     double longitude,
   ) async {
@@ -33,7 +35,7 @@ class WeatherDatasourceImpl extends WeatherDatasource {
       final weatherModel = WeatherModel.fromMap(data);
 
       // Return a Weather entity
-      return Weather(
+      return WeatherEntity(
         id: weatherModel.id,
         cityName: weatherModel.cityName,
         currentTemperature: weatherModel.currentTemperature,
@@ -47,12 +49,24 @@ class WeatherDatasourceImpl extends WeatherDatasource {
   }
 
   @override
-  Future<List<String>> getWeatherCoordinatesByApi(String cityNameSearch) async {
+  Future<LocationCoordinatesEntity> getWeatherCoordinatesByApi(
+    String cityNameSearch,
+  ) async {
     final url =
         'http://api.openweathermap.org/geo/1.0/direct?q=$cityNameSearch&limit=10&appid=$apiKey';
     final response = await dio.get(url);
-    final data = response.data;
+    if (response.statusCode == 200) {
+      final data = response.data;
+      final coordsModel = LocationCoordinatesModel.fromMap(data);
 
-    return [];
+      return LocationCoordinatesEntity(
+        name: coordsModel.name,
+        latitude: coordsModel.latitude,
+        longitude: coordsModel.longitude,
+        country: coordsModel.country,
+      );
+    } else {
+      throw Exception('Failed to fetch weather data: ${response.statusCode}');
+    }
   }
 }

@@ -1,7 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:my_weather/domain/entitites/weather.dart';
+import 'package:my_weather/domain/entitites/location_coordinates_entity.dart';
+import 'package:my_weather/domain/entitites/weather_entity.dart';
 import 'package:my_weather/domain/repositories/weather_repository.dart';
 
 part 'weather_event.dart';
@@ -14,7 +15,7 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
     : _weatherRepository = weatherRepository,
       super(WeatherInitial()) {
     on<WeatherByCoordinatesRequested>(_onWeatherByCoordinatesRequested);
-    on<WeatherByCoordinatesRequestedToAPI>(
+    on<WeatherByCoordinatesRequestedByAPI>(
       _onWeatherByCoordinatesRequestedToAPI,
     );
     on<WeatherStarted>(_onStarted);
@@ -111,10 +112,11 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
   }
 
   Future<void> _onWeatherByCoordinatesRequestedToAPI(
-    WeatherByCoordinatesRequestedToAPI event,
+    WeatherByCoordinatesRequestedByAPI event,
     Emitter<WeatherState> emit,
   ) async {
     try {
+      emit(WeatherOperationInProgress());
       final coords = _weatherRepository.getWeatherCoordinatesByApi(
         event.cityName,
       );
